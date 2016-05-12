@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 public class MainActivity extends Activity {
     String msg = "CongCong;";
@@ -56,6 +57,17 @@ public class MainActivity extends Activity {
                 textView_content.setTextColor(Color.RED);
             }
         });
+
+        // configure Sliding Menu
+        SlidingMenu menu = new SlidingMenu(this);
+        menu.setMode(SlidingMenu.LEFT);
+        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        menu.setBehindWidthRes(R.dimen.slidingMenu_offset);
+        menu.setShadowWidthRes(R.dimen.shadow_width);
+        menu.setShadowDrawable( R.drawable.shadow ) ;
+        menu.setFadeDegree(0.35f);
+        menu.attachToActivity(this,SlidingMenu.SLIDING_CONTENT);
+        menu.setMenu(R.layout.activity_query);
 
 
         Log.d(msg, "onCreate()");
