@@ -8,7 +8,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="#11AA8C"
-    tools:context="com.rekatrina.activitydemo.QueryActivity">
+    tools:context="com.rekatrina.activitydemo.MainActivity">
 
     <RelativeLayout
         android:id="@+id/leftTitlebar"
@@ -29,7 +29,7 @@
         android:layout_below="@+id/leftTitlebar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="20dp">
         <TextView
             android:id="@+id/text_bike"
             android:layout_width="wrap_content"
@@ -45,6 +45,7 @@
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:text="ID"
+            android:textSize="30dp"
             android:textColor="#121212"
             />
         <EditText
@@ -53,24 +54,45 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Password"
+            android:textSize="30dp"
             android:textColor="#121212"
             android:textAlignment="center"
             />
         <Button
-            android:id="@+id/btn_leftmenu1"
-            android:layout_below="@id/editText_pwd"
+            android:id="@+id/btn_bikeSet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/editText_pwd"
+            android:shadowColor="@color/colorAccent"
+            android:text="Add"
+            android:onClick="addRec"
+            />
+        <Button
+            android:id="@+id/btn_leftmenu1"
+            android:layout_below="@id/editText_pwd"
             android:layout_alignParentRight="true"
-            android:text="get！"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/btn_bikeSet"
+            android:text="Get"
+            android:onClick="getRec"
+            />
 
         <Button
         android:id="@+id/btn_leftmenu2"
-        android:layout_below="@id/btn_leftmenu1"
+        android:layout_below="@id/btn_bikeSet"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="something"/>
+
+        <ListView
+            android:id="@+id/listView_bike"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btn_leftmenu2"
+            android:layout_marginTop="5dp"
+            />
 
     </RelativeLayout>
 </RelativeLayout>

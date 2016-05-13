@@ -1,6 +1,7 @@
 package com.rekatrina.activitydemo;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Activity;
@@ -8,7 +9,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.SimpleCursorAdapter;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 public class MainActivity extends Activity {
@@ -18,6 +21,13 @@ public class MainActivity extends Activity {
     private Button button_showName;
     private Button button_send;
     private TextView textView_content;
+
+
+    private EditText editText_id;
+    private EditText editText_pwd;
+    private SQLiteHelp helper;
+    private Cursor cursor;
+    private ListView lvBike;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +80,21 @@ public class MainActivity extends Activity {
         menu.setMenu(R.layout.activity_query);
 
 
+        editText_id = (EditText)findViewById(R.id.editText_bikeid);
+        editText_pwd = (EditText)findViewById(R.id.editText_pwd);
+        lvBike = (ListView)findViewById(R.id.listView_bike);
+        //表中内容填充到自定义ListView
+        helper = new SQLiteHelp(this);
+        cursor = helper.select();
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(
+                this,
+                R.layout.bikelist,
+                cursor,
+                new String[] {"Num","Pwd"},
+                new int[] { R.id.textNum,R.id.textPwd}
+        );
+        lvBike.setAdapter(adapter);
+
         Log.d(msg, "onCreate()");
     }
 
@@ -77,7 +102,7 @@ public class MainActivity extends Activity {
         public void onClick(View view)
         {
             String msg = editText_name.getText().toString();
-            Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+            Intent intent = new Intent(MainActivity.this, QueryActivity.class);
 
             Bundle data  = new Bundle();
             data.putString("msg",msg);
@@ -122,5 +147,37 @@ public class MainActivity extends Activity {
     public void onDestroy() {
         super.onDestroy();
         Log.d(msg, "The function onDestroy() was called.");
+    }
+
+    public void addRec(View v)
+    {
+        String  id = editText_id.getText().toString();
+        if (id.length()!=5) {
+            editText_id.setText("Please input 5 nums");
+            return;
+        }
+        helper.insert(editText_id.getText().toString(),editText_pwd.getText().toString());
+//        lvBike.invalidateViews();
+    }
+
+    public void getRec(View v)
+    {
+        String et=editText_id.getText().toString();
+        String args[]=new String[]{et};
+        cursor=helper.query(args);
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(
+                this,
+                R.layout.bikelist,
+                cursor,
+                new String[] {"Num","Pwd"},
+                new int[] { R.id.textNum,R.id.textPwd}
+        );
+        lvBike.setAdapter(adapter);
+        while (cursor.moveToNext())
+        {
+            String uid = cursor.getString(cursor.getColumnIndex("Pwd"));
+            editText_pwd.setText(uid);
+        }
+
     }
 }
